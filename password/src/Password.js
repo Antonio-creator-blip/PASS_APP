@@ -5,7 +5,8 @@ class Password extends React.Component{
         super()
         this.state={
             chiaro: "",
-            criptato: ""
+            criptato: "",
+            lunghezza: "Consigliato inserire minimo 8 caratteri"
         }
     }
 
@@ -57,12 +58,22 @@ class Password extends React.Component{
         return testo_criptato
     }
 
+    lung(testo){
+        console.log(testo.length)
+        testo = testo.replace(/#/g,'')
+        if(testo.length<7){
+            return "Consigliato inserire minimo 8 caratteri"
+        }else{
+            return "Lunghezza giusta"
+        }
+    }
 
     aggiornaChiaro = (evento) =>{
         let testo = evento.target.value;
         this.setState({
             chiaro:testo,
-            criptato: this.encrypt(testo)
+            criptato: this.encrypt(testo),
+            lunghezza: this.lung(this.state.criptato)
         })
     }
 
@@ -76,6 +87,10 @@ class Password extends React.Component{
                 <div>
                     <label>La tua password </label><br/>
                     <input type='text' value={this.state.criptato} readOnly></input>
+                </div>
+                <br/>
+                <div>
+                    {this.state.lunghezza}
                 </div>
             </section>
         )
